@@ -24,3 +24,101 @@ exports.createExpense = async (req, res)=>{
         });
     }
 }
+
+exports.getMyExpenses = async (req, res) => {
+  try {
+    const expenses = await Expense.find({
+      submittedBy: req.user._id
+    }).sort({ createdAt: -1 });
+
+    res.status(200).json({
+      success: true,
+      count: expenses.length,
+      expenses
+    })
+} 
+  catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message
+    })
+  }
+}
+
+exports.getPendingExpense = async (req,res)=>{
+    try{
+        const expenses = await Expense.find({status: 'Submitted'}).populate("submittedBy","name email");
+
+        res.status(200).json({
+            success: true,
+            count: expenses.length,expenses
+        });
+    }
+    catch(error){
+        res.status(500).json({
+            success: false,
+            message: error.message
+        });
+    }
+}
+
+exports.approveExpense = async (req,res)=>{
+    try{
+        const expense = await Expense.findByIdAndUpdate(req.params.id,
+            {
+                status: "Approved",
+                approvedBy: req.user._id
+            },
+            {
+                new: true
+            }
+        );
+        if(!expense){
+            return res.status(404).json({
+                success: false,
+                message: "Expense not found"
+            });
+        }
+        res.status(200).json({
+            success: true,
+            message: "Expense Approved",
+            expense
+        })
+    }
+    catch(error){
+        res.status(500).json({
+            success: false,
+            message: error.message
+        })
+    }
+}
+
+exports.rejectExpense = async (req,res)=>{
+    try{
+        const expense = await Expense.findByIdAndUpdate(
+            req.params.id,
+            {
+                status: "Rejected",
+                approvedBy: req.user._id
+            },
+            {new: true}
+        )
+        if(!expense){
+            return res.status(404).json({
+                success: false,
+                message: "Expense not found"
+            });
+        }
+        res.status(200).json({
+            success: true,
+            message: "Expense rejected",
+            expense
+        })
+    }
+    catch(error){
+        res.status(500).json({
+            success: false,
+            message: error.message
+        })
+    }
+}
