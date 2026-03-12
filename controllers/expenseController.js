@@ -36,7 +36,7 @@ exports.getMyExpenses = async (req, res) => {
     if(req.query.status){
         filter.status = req.query.status;
     }
-    const expenses = await Expense.find(filter).skip(skip).limit(limit);
+    const expenses = await Expense.find(filter).sort({ createdAt: -1 }).skip(skip).limit(limit);
     const total = await Expense.countDocuments(filter);
     res.status(200).json({
         success: true,
@@ -122,6 +122,34 @@ exports.rejectExpense = async (req,res)=>{
             success: true,
             message: "Expense rejected",
             expense
+        })
+    }
+    catch(error){
+        res.status(500).json({
+            success: false,
+            message: error.message
+        })
+    }
+}
+
+exports.getExpenseStats = async (req,res)=>{
+    try{
+        const stats = await Expense.aggregate([
+            {
+                $group: {
+                    _id: "$status",
+                    count: {
+                        $sum: 1
+                    },
+                    totalAmount: {
+                        $sum: "$amount"
+                    }
+                }
+            }
+        ])
+        res.status(200).json({
+            success: true,
+            stats
         })
     }
     catch(error){
