@@ -17,4 +17,5 @@ router.patch("/:id/reject", protect, authorizeRoles("manager"), rejectExpense);
 
 router.get("/stats", protect, authorizeRoles("admin","manager"), getExpenseStats);
 
+
 module.exports = router;
