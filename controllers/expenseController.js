@@ -27,14 +27,23 @@ exports.createExpense = async (req, res)=>{
 
 exports.getMyExpenses = async (req, res) => {
   try {
-    const expenses = await Expense.find({
-      submittedBy: req.user._id
-    }).sort({ createdAt: -1 });
-
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const skip = (page - 1) * limit;
+    const filter = {
+        submittedBy: req.user._id
+    }
+    if(req.query.status){
+        filter.status = req.query.status;
+    }
+    const expenses = await Expense.find(filter).skip(skip).limit(limit);
+    const total = await Expense.countDocuments(filter);
     res.status(200).json({
-      success: true,
-      count: expenses.length,
-      expenses
+        success: true,
+        page,
+        totalPages: Math.ceil(total / limit),
+        totalExpenses: total,
+        expenses
     })
 } 
   catch (error) {
