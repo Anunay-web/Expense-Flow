@@ -1,5 +1,5 @@
 const Expense = require('../models/expense');
-
+const cloudinary = require('../config/cloudinary'); 
 exports.createExpense = async (req, res)=>{
     try{
         const {title, description, amount, category} =  req.body;
@@ -159,3 +159,41 @@ exports.getExpenseStats = async (req,res)=>{
         })
     }
 }
+
+
+
+exports.submitExpense = async (req, res) => {
+  try {
+    const { title, description, amount, category } = req.body;
+    let receiptUrl = "";
+    if (req.file) {
+      const result = await cloudinary.uploader.upload_stream(
+        { folder: "expense_receipts" },
+        (error, result) => {
+          if (error) throw error;
+          receiptUrl = result.secure_url;
+        }
+      );
+    }
+    const expense = await Expense.create({
+      title,
+      description,
+      amount,
+      category,
+      receipt: receiptUrl,
+      submittedBy: req.user._id
+    });
+
+    res.status(201).json({
+      success: true,
+      message: "Expense submitted successfully",
+      expense
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message
+    });
+  }
+};
