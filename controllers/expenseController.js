@@ -194,7 +194,37 @@ exports.submitExpense = async (req, res) => {
     res.status(500).json({
       success: false,
       message: error.message
-    })
+    });
+  }
+};
+
+exports.getAllExpenses = async (req,res) => {
+    try{
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 10;
+        const skip = (page - 1) * limit;
+        const filter = {};
+    if (req.query.status) {
+      filter.status = req.query.status;
+    }
+    const expenses = await Expense.find(filter)
+      .populate("submittedBy", "name email")
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit);
+    const total = await Expense.countDocuments(filter);
+    res.status(200).json({
+      success: true,
+      page,
+      totalPages: Math.ceil(total / limit),
+      totalExpenses: total,
+      expenses
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message
+    });
   }
 }
-
