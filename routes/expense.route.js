@@ -2,10 +2,12 @@ const express = require('express');
 const router = express.Router();
 const upload = require("../middleware/uploadMiddleware");
 const { createExpense, getPendingExpense, approveExpense, rejectExpense,getMyExpenses, getExpenseStats, submitExpense, getAllExpenses, updateExpense, deleteExpense} = require('../controllers/expenseController');
+const {validateRequest} = require("../middleware/validationMiddleware")
+const { validateExpense } = require("../middleware/expenseValidation");
 const { protect } = require('../middleware/authMiddleware');
 const authorizeRoles = require("../middleware/roleMiddleware");
 
-router.post("/submit", protect, upload.single("receipt"), submitExpense);
+router.post("/submit",validateExpense,validateRequest, protect, upload.single("receipt"), submitExpense);
 
 router.get("/my-expenses", protect, getMyExpenses);
 
