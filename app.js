@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const morgan = require('morgan')
 const app = express();
 const authRoutes = require('./routes/auth.route');
 const userRoutes = require('./routes/user.route');
@@ -8,6 +9,7 @@ const expenseRoute = require('./routes/expense.route');
 const errorHandler = require('./middleware/errorMiddleware');
 app.use(cors());
 app.use(express.json()); 
+app.use(morgan('dev'));
 app.get('/', (req, res) => {
   res.send('working....');
 });
