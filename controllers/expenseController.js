@@ -17,11 +17,7 @@ exports.createExpense = async (req, res)=>{
         });
     }
     catch(error){
-        res.status(500).json({
-            success: false,
-            message: "Error submitting expense",
-            error: error.message
-        });
+        next(error);
     }
 }
 
@@ -47,10 +43,7 @@ exports.getMyExpenses = async (req, res) => {
     })
 } 
   catch (error) {
-    res.status(500).json({
-      success: false,
-      message: error.message
-    })
+    next(error);
   }
 }
 
@@ -64,10 +57,7 @@ exports.getPendingExpense = async (req,res)=>{
         });
     }
     catch(error){
-        res.status(500).json({
-            success: false,
-            message: error.message
-        });
+        next(error);
     }
 }
 
@@ -95,10 +85,7 @@ exports.approveExpense = async (req,res)=>{
         })
     }
     catch(error){
-        res.status(500).json({
-            success: false,
-            message: error.message
-        })
+        next(error);
     }
 }
 
@@ -125,10 +112,7 @@ exports.rejectExpense = async (req,res)=>{
         })
     }
     catch(error){
-        res.status(500).json({
-            success: false,
-            message: error.message
-        })
+        next(error);
     }
 }
 
@@ -153,10 +137,7 @@ exports.getExpenseStats = async (req,res)=>{
         })
     }
     catch(error){
-        res.status(500).json({
-            success: false,
-            message: error.message
-        })
+        next(error);
     }
 }
 
@@ -191,10 +172,7 @@ exports.submitExpense = async (req, res) => {
     });
 
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: error.message
-    });
+    next(error);
   }
 };
 
@@ -222,10 +200,7 @@ exports.getAllExpenses = async (req,res) => {
     });
 
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: error.message
-    });
+    next(error);
   }
 }
 
@@ -264,10 +239,7 @@ exports.updateExpense = async (req, res)=>{
         })
     }
     catch(error){
-        res.status(500).json({
-            success: false,
-            message: error.message
-        })
+        next(error);
     }
 }
 
@@ -301,9 +273,6 @@ exports.deleteExpense = async (req, res) => {
     });
 
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: error.message
-    })
+    next(error);
   }
 }

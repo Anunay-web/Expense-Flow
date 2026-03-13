@@ -5,6 +5,7 @@ const authRoutes = require('./routes/auth.route');
 const userRoutes = require('./routes/user.route');
 const testRoute = require('./routes/test.route');
 const expenseRoute = require('./routes/expense.route');
+const errorHandler = require('./middleware/errorMiddleware');
 app.use(cors());
 app.use(express.json()); 
 app.get('/', (req, res) => {
@@ -14,4 +15,8 @@ app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/test', testRoute);
 app.use('/api/expenses', expenseRoute);
+app.use(errorHandler);
+
+
+
 module.exports = app;
