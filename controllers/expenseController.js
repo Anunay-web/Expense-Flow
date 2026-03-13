@@ -228,3 +228,82 @@ exports.getAllExpenses = async (req,res) => {
     });
   }
 }
+
+exports.updateExpense = async (req, res)=>{
+    try{
+        const expense = await Expense.findById(req.params.id);
+        if(!expense){
+            return res.status(404).json({
+                success: false,
+                message: "Expense not found"
+            });
+        }
+        if(expense.submittedBy.toString() !== req.user._id.toString()){
+            return res.status(403).json({
+                success: false,
+                message: "Unauthorized"
+            });
+        }
+        if(expense.status == "Approved"){
+            return res.status(400).json({
+                success: false,
+                message: "Approved expenses cannot be updated"
+            });
+
+        }
+        const {title, description, amount, category} = req.body;
+        expense.title = title || expense.title;
+        expense.description = description || expense.description;
+        expense.amount = amount || expense.amount;
+        expense.category = category || expense.category;
+        const updatedExpense = await expense.save();
+        res.status(200).json({
+            success: true,
+            message: "Expense updated successfully",
+            expense: updatedExpense
+        })
+    }
+    catch(error){
+        res.status(500).json({
+            success: false,
+            message: error.message
+        })
+    }
+}
+
+exports.deleteExpense = async (req, res) => {
+  try {
+    const expense = await Expense.findById(req.params.id);
+    if (!expense) {
+      return res.status(404).json({
+        success: false,
+        message: "Expense not found"
+      })
+    }
+    if (expense.submittedBy.toString() !== req.user._id.toString()) {
+      return res.status(403).json({
+        success: false,
+        message: "Not authorized to delete this expense"
+      })
+    }
+    if (expense.status === "APPROVED") {
+      return res.status(400).json({
+        success: false,
+        message: "Approved expense cannot be deleted"
+      })
+    }
+
+    await expense.deleteOne();
+
+    res.status(200).json({
+      success: true,
+      message: "Expense deleted successfully"
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message
+    })
+  }
+}
