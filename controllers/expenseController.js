@@ -1,5 +1,6 @@
 const Expense = require('../models/expense');
 const cloudinary = require('../config/cloudinary'); 
+const streamifier = require("streamifier");
 exports.createExpense = async (req, res)=>{
     try{
         const {title, description, amount, category} =  req.body;
@@ -32,6 +33,13 @@ exports.getMyExpenses = async (req, res) => {
     if(req.query.status){
         filter.status = req.query.status;
     }
+    if (req.query.category) {
+      filter.category = req.query.category;
+    }
+    if (req.query.search) {
+  filter.title = { $regex: req.query.search, $options: "i" };
+}
+    
     const expenses = await Expense.find(filter).sort({ createdAt: -1 }).skip(skip).limit(limit);
     const total = await Expense.countDocuments(filter);
     res.status(200).json({
@@ -141,34 +149,26 @@ exports.getExpenseStats = async (req,res)=>{
     }
 }
 
-
-
-exports.submitExpense = async (req, res) => {
+exports.getMyExpenseStats = async (req, res, next) => {
   try {
-    const { title, description, amount, category } = req.body;
-    let receiptUrl = "";
-    if (req.file) {
-      const result = await cloudinary.uploader.upload_stream(
-        { folder: "expense_receipts" },
-        (error, result) => {
-          if (error) throw error;
-          receiptUrl = result.secure_url;
-        }
-      );
-    }
-    const expense = await Expense.create({
-      title,
-      description,
-      amount,
-      category,
-      receipt: receiptUrl,
-      submittedBy: req.user._id
-    });
+    const userId = req.user._id;
 
-    res.status(201).json({
-      success: true,
-      message: "Expense submitted successfully",
-      expense
+    const expenses = await Expense.find({ submittedBy: userId });
+
+    const total = expenses.reduce((sum, e) => sum + e.amount, 0);
+
+    const approved = expenses
+      .filter(e => e.status === "Approved")
+      .reduce((sum, e) => sum + e.amount, 0);
+
+    const pending = expenses
+      .filter(e => e.status === "Submitted")
+      .reduce((sum, e) => sum + e.amount, 0);
+
+    res.json({
+      total,
+      approved,
+      pending
     });
 
   } catch (error) {
@@ -176,6 +176,60 @@ exports.submitExpense = async (req, res) => {
   }
 };
 
+
+
+exports.submitExpense = async (req, res, next) => {
+  try {
+    const { title, description, amount, category } = req.body;
+
+    let receiptUrl = "";
+
+    if (req.file) {
+      console.log("Uploading to Cloudinary...");
+
+      const streamUpload = () => {
+        return new Promise((resolve, reject) => {
+          const stream = cloudinary.uploader.upload_stream(
+            { folder: "expense_receipts" },
+            (error, result) => {
+              if (error) {
+                console.log("Cloudinary Error:", error);
+                reject(error);
+              } else {
+                console.log("Upload Success:", result.secure_url);
+                resolve(result);
+              }
+            }
+          );
+
+          streamifier.createReadStream(req.file.buffer).pipe(stream);
+        });
+      };
+
+      const result = await streamUpload();
+      receiptUrl = result.secure_url;
+    }
+
+    const expense = await Expense.create({
+      title,
+      description,
+      amount,
+      category,
+      receipt: receiptUrl,
+      submittedBy: req.user._id,
+    });
+
+    res.status(201).json({
+      success: true,
+      message: "Expense submitted successfully",
+      expense,
+    });
+    console.log("REQ.FILE:", req.file);
+
+  } catch (error) {
+    next(error);
+  }
+};
 exports.getAllExpenses = async (req,res) => {
     try{
         const page = parseInt(req.query.page) || 1;
