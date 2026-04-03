@@ -60,7 +60,7 @@ backend/
 ## 🚀 Getting Started
 
 ```bash id="e1k3mf"
-git clone https://github.com/your-username/expenseflow-backend.git
+git clone https://github.com/Anunay-web/Expense-Flow.git
 cd expenseflow-backend
 npm install
 npm run dev
