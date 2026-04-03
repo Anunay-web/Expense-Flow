@@ -4,34 +4,45 @@ const generateToken = require("../utils/generateToken");
 
 
 //register
-exports.registerUser = async (req, res) => {
+exports.registerUser = async (req, res, next) => {
   try {
-
-    const { name, email, password } = req.body;
-    const existingUser = await User.findOne({email});
-    if(existingUser){
-      return res.status(400).json({message: "Email already in use"});
+    // Only admin can create users
+    if (req.user.role !== "admin") {
+      return res.status(403).json({
+        message: "Only admin can create users",
+      });
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const { name, email, password, role } = req.body;
 
-    const newUser = await User.create({
+    if (!name || !email || !password) {
+      return res.status(400).json({
+        message: "All fields are required",
+      });
+    }
+
+    const existingUser = await User.findOne({ email });
+
+    if (existingUser) {
+      return res.status(400).json({
+        message: "User already exists",
+      });
+    }
+
+    const user = await User.create({
       name,
       email,
-      password: hashedPassword
+      password,
+      role: role || "employee",
     });
 
     res.status(201).json({
-      _id: newUser._id,
-      name: newUser.name,
-      email: newUser.email,
-      role: newUser.role,
-      token: generateToken(newUser._id)
+      message: "User created successfully",
+      user,
     });
 
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Server error" });
+    next(error);
   }
 };
 

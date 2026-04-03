@@ -28,15 +28,18 @@ exports.getMyExpenses = async (req, res) => {
     const limit = parseInt(req.query.limit) || 10;
     const skip = (page - 1) * limit;
     const filter = {
-        submittedBy: req.user._id
-    }
-    if(req.query.status){
-        filter.status = req.query.status;
-    }
-    if (req.query.category) {
-      filter.category = req.query.category;
-    }
-    if (req.query.search) {
+  submittedBy: req.user._id, // for employee
+};
+
+if (req.query.status) {
+  filter.status = req.query.status;
+}
+
+if (req.query.category) {
+  filter.category = req.query.category;
+}
+
+if (req.query.search) {
   filter.title = { $regex: req.query.search, $options: "i" };
 }
     
@@ -236,9 +239,18 @@ exports.getAllExpenses = async (req,res) => {
         const limit = parseInt(req.query.limit) || 10;
         const skip = (page - 1) * limit;
         const filter = {};
-    if (req.query.status) {
-      filter.status = req.query.status;
-    }
+
+if (req.query.status) {
+  filter.status = req.query.status;
+}
+
+if (req.query.category) {
+  filter.category = req.query.category;
+}
+
+if (req.query.search) {
+  filter.title = { $regex: req.query.search, $options: "i" };
+}
     const expenses = await Expense.find(filter)
       .populate("submittedBy", "name email")
       .sort({ createdAt: -1 })
