@@ -29,33 +29,33 @@
 
 AuditFlow is engineered to simulate high-stakes corporate environments where data integrity and role-based accountability are paramount. 
 
-* **👤 Employee Node:** Submits fiscal claims with encrypted digital evidence.
-* **🛡️ Manager Node:** Conducts programmatic audits, reconciliation, and compliance flagging.
-* **⚙️ Admin Node:** System-wide identity provisioning and global capital flow monitoring.
+- 👤 **Employee Node:** Submits fiscal claims with encrypted digital evidence  
+- 🛡️ **Manager Node:** Conducts programmatic audits, reconciliation, and compliance flagging  
+- ⚙️ **Admin Node:** System-wide identity provisioning and global capital flow monitoring  
 
 ---
 
 ## ✨ Enterprise Features
 
-* **🛡️ Identity Provisioning:** RBAC (Role-Based Access Control) secured via **JWT** and custom authorization gates.
-* **🔄 Automated Audit Lifecycle:** Programmatic state transitions for disbursements (Submitted → Under Review → Settled).
-* **⚠️ Predictive Compliance:** Backend logic to flag high-value or high-risk transactions for senior review.
-* **📧 Email Orchestration:** Integrated **Nodemailer** system for real-time approval alerts and compliance notices.
-* **📸 Evidence Management:** Seamless **Cloudinary** integration via **Multer** for immutable receipt storage.
-* **📊 HUD Analytics:** High-speed MongoDB aggregation pipelines for real-time gross expenditure monitoring.
+- 🛡️ **Identity Provisioning:** RBAC secured via **JWT** and custom authorization middleware  
+- 🔄 **Automated Audit Lifecycle:** State transitions (Submitted → Under Review → Settled)  
+- ⚠️ **Predictive Compliance:** Flags high-risk or high-value transactions  
+- 📧 **Email Orchestration:** Integrated **Nodemailer** for approval alerts & notifications  
+- 📸 **Evidence Management:** **Cloudinary + Multer** for secure receipt storage  
+- 📊 **HUD Analytics:** MongoDB aggregation pipelines for real-time financial insights  
 
 ---
 
 ## 📂 System Mapping
 
-
+```bash
 backend/
- ├── ⚙️ config/        # Environment & DB Connectors
- ├── 🛡️ middleware/    # Auth Gates & Error Sanitization
- ├── 👤 models/        # Identity & Ledger Schemas
- ├── 🎮 controllers/   # Business Logic & Fiscal Workflows
- ├── 🛣️ routes/        # API Endpoints & URI Mapping
- └── 📧 services/      # Email Templates & Nodemailer Logic
+ ├── config/        # Environment & DB Connectors
+ ├── middleware/    # Auth Gates & Error Handling
+ ├── models/        # Schemas (Users, Expenses, etc.)
+ ├── controllers/   # Business Logic
+ ├── routes/        # API Routes
+ └── services/      # Email Logic (Nodemailer)
 
 ##⚙️ Deployment & Environment
 # System Configuration
