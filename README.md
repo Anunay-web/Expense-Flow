@@ -48,7 +48,6 @@ AuditFlow is engineered to simulate high-stakes corporate environments where dat
 
 ## 📂 System Mapping
 
-```bash
 backend/
  ├── config/        # Environment & DB Connectors
  ├── middleware/    # Auth Gates & Error Handling
