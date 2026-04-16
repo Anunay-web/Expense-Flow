@@ -57,21 +57,21 @@ backend/ <br>
  └── services/      # Email Logic (Nodemailer) <br>
 
 ##⚙️ Deployment & Environment
-# System Configuration
-PORT=3000
-MONGO_URI=your_cluster_uri
-JWT_SECRET=your_system_secret
+# System Configuration 
+PORT=3000 <br>
+MONGO_URI=your_cluster_uri <br>
+JWT_SECRET=your_system_secret <br>
 
 # Evidence Management (Cloudinary)
-CLOUDINARY_CLOUD_NAME=your_name
-CLOUDINARY_API_KEY=your_key
-CLOUDINARY_API_SECRET=your_secret
+CLOUDINARY_CLOUD_NAME=your_name <br>
+CLOUDINARY_API_KEY=your_key <br>
+CLOUDINARY_API_SECRET=your_secret <br>
 
 # Email Service (Nodemailer)
-SMTP_HOST=smtp.gmail.com
-SMTP_PORT=587
-SMTP_USER=your_corporate_email
-SMTP_PASS=your_app_password
+SMTP_HOST=smtp.gmail.com <br>
+SMTP_PORT=587 <br>
+SMTP_USER=your_corporate_email <br>
+SMTP_PASS=your_app_password <br>
 
 ## 📌 API Protocol
 
