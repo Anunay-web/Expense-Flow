@@ -7,18 +7,12 @@
 </p>
 
 <p align="center">
-  <kbd>
-    <img src="https://komarev.com/ghpvc/?username=Anunay-web&label=SYSTEM%20TRAFFIC&color=indigo&style=flat-square" alt="AuditFlow Traffic" />
-  </kbd>
-</p>
-
-<p align="center">
-  <strong>AuditFlow</strong> is a high-performance, identity-verified RESTful API built to provide a secure "Control Plane" for corporate financial integrity.
+  <strong>AuditFlow</strong> is a high-performance, identity-verified RESTful API built to provide a secure "Control Plane" for corporate financial integrity. This backend facilitates an immutable audit trail, automated risk assessment, and hierarchical reconciliation workflows.
 </p>
 
 ---
 
-## 🚀 System Tech Stack
+## 🚀 Built With
 
 <p align="center">
   <img src="https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white" />
@@ -26,36 +20,31 @@
   <img src="https://img.shields.io/badge/MongoDB-%234ea94b.svg?style=for-the-badge&logo=mongodb&logoColor=white" />
   <img src="https://img.shields.io/badge/JWT-black?style=for-the-badge&logo=JSON%20web%20tokens" />
   <img src="https://img.shields.io/badge/Cloudinary-3448C5?style=for-the-badge&logo=Cloudinary&logoColor=white" />
+  <img src="https://img.shields.io/badge/Nodemailer-000?style=for-the-badge&logo=gmail&logoColor=white" />
 </p>
 
 ---
 
 ## 🧠 System Architecture Overview
 
-<details>
-<summary><b>📂 View Hierarchical Node Structure (Click to Expand)</b></summary>
+AuditFlow is engineered to simulate high-stakes corporate environments where data integrity and role-based accountability are paramount. 
 
-| Node | Responsibility | Access Level |
-| :--- | :--- | :--- |
-| **👤 Employee** | Disbursement Logging & Evidence Upload | Restricted |
-| **🛡️ Manager** | Programmatic Auditing & Reconciliation | Elevated |
-| **⚙️ Admin** | Identity Provisioning & Global HUD | Root |
-
-</details>
+- 👤 **Employee Node:** Submits fiscal claims with encrypted digital evidence  
+- 🛡️ **Manager Node:** Conducts programmatic audits, reconciliation, and compliance flagging  
+- ⚙️ **Admin Node:** System-wide identity provisioning and global capital flow monitoring  
 
 ---
 
 ## ✨ Enterprise Features
 
-- 🛡️ **Identity Provisioning:** RBAC secured via **JWT** and custom authorization middleware.
-- 🔄 **Automated Audit Lifecycle:** Seamless state transitions (Submitted → Under Review → Settled).
-- ⚠️ **Predictive Compliance:** Backend logic to flag high-risk or high-value transactions.
-- 📧 **Email Orchestration:** Integrated **Nodemailer** for real-time approval alerts.
-- 📸 **Evidence Management:** **Cloudinary + Multer** integration for immutable receipt storage.
-- 📊 **HUD Analytics:** Advanced MongoDB aggregation pipelines for real-time financial insights.
+- 🛡️ **Identity Provisioning:** RBAC secured via **JWT** and custom authorization middleware  
+- 🔄 **Automated Audit Lifecycle:** State transitions (Submitted → Under Review → Settled)  
+- ⚠️ **Predictive Compliance:** Flags high-risk or high-value transactions  
+- 📧 **Email Orchestration:** Integrated **Nodemailer** for approval alerts & notifications  
+- 📸 **Evidence Management:** **Cloudinary + Multer** for secure receipt storage  
+- 📊 **HUD Analytics:** MongoDB aggregation pipelines for real-time financial insights  
 
 ---
-
 
 ## 📂 System Mapping <br>
 
