@@ -46,15 +46,15 @@ AuditFlow is engineered to simulate high-stakes corporate environments where dat
 
 ---
 
-## 📂 System Mapping
+## 📂 System Mapping <br>
 
-backend/
- ├── config/        # Environment & DB Connectors
- ├── middleware/    # Auth Gates & Error Handling
- ├── models/        # Schemas (Users, Expenses, etc.)
- ├── controllers/   # Business Logic
- ├── routes/        # API Routes
- └── services/      # Email Logic (Nodemailer)
+backend/ <br>
+ ├── config/        # Environment & DB Connectors <br>
+ ├── middleware/    # Auth Gates & Error Handling <br>
+ ├── models/        # Schemas (Users, Expenses, etc.) <br>
+ ├── controllers/   # Business Logic <br>
+ ├── routes/        # API Routes <br>
+ └── services/      # Email Logic (Nodemailer) <br>
 
 ##⚙️ Deployment & Environment
 # System Configuration
