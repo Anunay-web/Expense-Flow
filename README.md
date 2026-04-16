@@ -85,5 +85,5 @@ SMTP_PASS=your_app_password <br>
 | PATCH  | /api/expenses/:id/approve        | Authorize Disbursement    | Manager         |
 
 ## 👨‍💻 Author
-Anunay Kumar
+Anunay Kumar <br>
 B.Tech CSE | Full Stack Developer
