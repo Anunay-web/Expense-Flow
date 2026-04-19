@@ -32,11 +32,21 @@ const userSchema = new mongoose.Schema(
     isActive: {
         type: Boolean,
         default: true
-    }
+    },
+    otp: {
+  type: String,
+  select: false,
+ },
+    otpExpiry: Date,
+    isVerified: {
+    type: Boolean,
+    default: false,
+},
 },
 {
     timestamps: true
-}
+},
+
 );
 
 module.exports = mongoose.model("User", userSchema);
